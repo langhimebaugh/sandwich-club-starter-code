@@ -4,8 +4,12 @@ import android.util.Log;
 
 import com.udacity.sandwichclub.model.Sandwich;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class JsonUtils {
 
@@ -22,28 +26,43 @@ public class JsonUtils {
         final String SANDWICH_INGREDIENTS = "ingredients";
 
         Log.i(TAG, "parseSandwichJson: " + sandwichJsonStr);
-        // Returns Json data...
-        // parseSandwichJson: {"name":{"mainName":"Pljeskavica","alsoKnownAs":[]},"placeOfOrigin":"Serbia","description":"Pljeskavica, a grilled dish of spiced meat patty mixture of pork, beef and lamb, is a national dish of Serbia, also popular in Bosnia and Herzegovina and Croatia. It is a main course served with onions, kajmak (milk cream), ajvar (relish), and urnebes (spicy cheese salad), either on plate with side dishes, or with lepinja (flatbread, as a type of hamburger). Recently, Pljeskavica has gained popularity elsewhere in Europe and is served in a few speciality fast food restaurants in Germany, Sweden, and Austria.","image":"https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Pljeskavica_%286883073017%29.jpg/800px-Pljeskavica_%286883073017%29.jpg","ingredients":["Two or more of beef, lamb, pork, veal","Onions","Bread crumbs","Lard"]}
 
         JSONObject sandwichJsonObject = new JSONObject(sandwichJsonStr);
 
         Log.i(TAG, "sandwichJsonObject: " + sandwichJsonObject.toString());
 
+        // To reach mainName & alsoKnownAs using Object on the Object
+        // sandwichJsonObject.getJSONObject(SANDWICH_NAME)
+
+        String sandwichName = sandwichJsonObject.getJSONObject(SANDWICH_NAME).getString(SANDWICH_MAIN_NAME);
+
+        List<String> sandwichAlsoKnownAs = new ArrayList<>();
+        JSONArray sandwichAlsoKnownAsArray = sandwichJsonObject.getJSONObject(SANDWICH_NAME).getJSONArray(SANDWICH_ALSO_KNOWN_AS);
+        for (int i = 0; i < sandwichAlsoKnownAsArray.length(); i++) {
+            Log.i(TAG, "sandwichAlsoKnownAsArray: " + sandwichAlsoKnownAsArray.getString(i));
+            sandwichAlsoKnownAs.add( sandwichAlsoKnownAsArray.getString(i) );
+        }
+
         String sandwichPlaceOfOrigin = sandwichJsonObject.getString(SANDWICH_PLACE_OF_ORIGIN);
         String sandwichDescription = sandwichJsonObject.getString(SANDWICH_DESCRIPTION);
         String sandwichImage = sandwichJsonObject.getString(SANDWICH_IMAGE);
 
+        List<String> sandwichIngredients = new ArrayList<>();
+        JSONArray sandwichIngredientsArray = sandwichJsonObject.getJSONArray(SANDWICH_INGREDIENTS);
+        for (int i = 0; i < sandwichIngredientsArray.length(); i++) {
+            Log.i(TAG, "sandwichIngredientsArray: " + sandwichIngredientsArray.getString(i));
+            sandwichIngredients.add( sandwichIngredientsArray.getString(i) );
+        }
+
+        Log.i(TAG, "sandwichName: " + sandwichName);
         Log.i(TAG, "sandwichPlaceOfOrigin: " + sandwichPlaceOfOrigin);
         Log.i(TAG, "sandwichDescription: " + sandwichDescription);
         Log.i(TAG, "sandwichImage: " + sandwichImage);
+        Log.i(TAG, "sandwichIngredients: " + sandwichIngredients);
 
-        Sandwich sandwich = new Sandwich();
-        sandwich.setPlaceOfOrigin(sandwichPlaceOfOrigin);
-        sandwich.setDescription(sandwichDescription);
-        sandwich.setImage(sandwichImage);
+        Sandwich sandwich = new Sandwich(sandwichName, sandwichAlsoKnownAs, sandwichPlaceOfOrigin, sandwichDescription, sandwichImage, sandwichIngredients);
 
         return sandwich;
     }
-
 
 }

@@ -73,4 +73,28 @@ public class Sandwich {
     public void setIngredients(List<String> ingredients) {
         this.ingredients = ingredients;
     }
+
+    public String getIngredientString() {
+        // Adapted from https://stackoverflow.com/questions/668952/clearest-way-to-comma-delimit-a-list
+        StringBuilder stringBuilder = new StringBuilder();
+        String delimiter = "";
+        for (String i : ingredients) {
+            stringBuilder.append(delimiter).append(i);
+            delimiter = ", ";
+        }
+
+        return stringBuilder.toString();
+    }
+
+    public String getAlsoKnownAsString() {
+        // Adapted from https://stackoverflow.com/questions/668952/clearest-way-to-comma-delimit-a-list
+        StringBuilder stringBuilder = new StringBuilder();
+        String delimiter = "";
+        for (String i : alsoKnownAs) {
+            stringBuilder.append(delimiter).append(i);
+            delimiter = ", ";
+        }
+
+        return stringBuilder.toString();
+    }
 }
