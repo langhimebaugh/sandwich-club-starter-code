@@ -1,19 +1,16 @@
 package com.udacity.sandwichclub;
 
 // (3) Import statements for Data Binding
-import android.databinding.DataBindingUtil;
-
-import com.squareup.picasso.Target;
-import com.udacity.sandwichclub.databinding.ActivityDetailBinding;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
+import com.udacity.sandwichclub.databinding.ActivityDetailBinding;
 import com.udacity.sandwichclub.model.Sandwich;
 import com.udacity.sandwichclub.utils.JsonUtils;
 
@@ -40,13 +37,6 @@ public class DetailActivity extends AppCompatActivity {
 
         // (5) Instantiate mDetailBinding using DataBindingUtil
         mDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_detail);
-
-
-        // mDetailBinding.
-        // extraDetails.pressure.setText(pressureString);
-        // description_tv
-
-        // ImageView ingredientsIv = findViewById(R.id.image_iv);
 
         Intent intent = getIntent();
         if (intent == null) {
